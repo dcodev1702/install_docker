@@ -1,4 +1,4 @@
-# Install Docker-Compose (or update to its latest version)  <br />
+# Install Docker & Docker-Compose  <br />
 
 Install Docker via docker-install script (@Docker) <br />
 ```bash
