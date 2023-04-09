@@ -31,7 +31,7 @@ docker_compose_install() {
 
     if [ ! $(command -v docker-compose) ]; then
 
-        echo -e "Docker Compose is NOT installed on: $(hostname)"
+        echo -e "\033[31mDocker Compose is NOT installed on:\033[0m $(hostname)"
         echo -e "$Green Installing docker-compose -> $COMPOSE_VERSION. $Color_Off"
         
         install_dc
