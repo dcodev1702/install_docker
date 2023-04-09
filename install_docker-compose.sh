@@ -17,7 +17,7 @@ install_dc() {
     echo "Docker Compose successfully downloaded to: $INSTALL_DIR"
 
     sudo chmod 755 $INSTALL_DIR/docker-compose
-    sudo ln -s $INSTALL_DIR/docker-compose /usr/bin/docker-compose
+    sudo ln -sf $INSTALL_DIR/docker-compose /usr/bin/docker-compose
 
     echo "Docker Compose successfully linked to: /usr/bin/docker-compose"
     echo "`docker-compose version` has been successfully installed on this system."
