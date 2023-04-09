@@ -29,8 +29,7 @@ docker_compose_install() {
     Color_Off='\033[0m'
     Green='\033[0;32m'
 
-    if [ ! $"(command -v docker-compose &> /dev/null)" ]
-    then
+    if [ ! $"(command -v docker-compose &> /dev/null)" ]; then
 
         echo -e "Docker Compose is NOT installed on: $(hostname)"
         echo -e "$Green Installing docker-compose -> $COMPOSE_VERSION.. $Color_Off"
@@ -47,7 +46,6 @@ docker_compose_install() {
         exit
     fi
 
-    
     if [ "$COMPOSE_VERSION" != "$DC_CURVER" ]; then
         echo -e "$Green Installing a newer version $COMPOSE_VERSION of docker-compose..$Color_Off"
         sudo rm -rf $DC_LOC
