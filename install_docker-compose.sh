@@ -7,11 +7,11 @@
 
 # Works Cited [COMPOSE_VERSION]: Thank you Roberto Rodriguez (https://github.com/Cyb3rWard0g)
 INSTALL_DIR=/usr/local/bin
-COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+COMPOSE_VERSION=$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
 
 install_dc() {
 
-    sudo curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` \
+    sudo curl -sSL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` \
     -o $INSTALL_DIR/docker-compose
 
     echo "Docker Compose successfully downloaded to: $INSTALL_DIR"
