@@ -7,7 +7,7 @@
 
 # Works Cited [COMPOSE_VERSION]: Thank you Roberto Rodriguez (https://github.com/Cyb3rWard0g)
 INSTALL_DIR=/usr/local/bin
-COMPOSE_VERSION=$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+COMPOSE_VERSION=$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d \" -f4)
 
 install_dc() {
 
