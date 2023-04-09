@@ -26,13 +26,10 @@ install_dc() {
 
 docker_compose_install() {
 
-    Color_Off='\033[0m'
-    Green='\033[32m'
-
     if [ ! $(command -v docker-compose) ]; then
 
         echo -e "\033[31mDocker Compose is NOT installed on:\033[0m $(hostname)"
-        echo -e "\033[32mInstalling docker-compose -> $COMPOSE_VERSION. $Color_Off"
+        echo -e "\033[32mInstalling docker-compose -> $COMPOSE_VERSION.\033[0m"
         
         install_dc
         exit
@@ -42,12 +39,12 @@ docker_compose_install() {
     DC_CURVER=`docker-compose version | awk '{ print $4 }'`
 
     if [ -f "$DC_LOC" ] && [ "$COMPOSE_VERSION" = "$DC_CURVER" ]; then
-        echo -e "$Green `docker-compose version` exists and is the most current version. $Color_Off Exiting."
+        echo -e "\033[32m`docker-compose version` exists and is the most current version.\033[0m Exiting."
         exit
     fi
 
     if [ "$COMPOSE_VERSION" != "$DC_CURVER" ]; then
-        echo -e "$Green Installing a newer version $COMPOSE_VERSION of docker-compose..$Color_Off"
+        echo -e "\033[32mInstalling a newer version $COMPOSE_VERSION of docker-compose..\033[0m"
         sudo rm -rf $DC_LOC
         
         install_dc
