@@ -42,7 +42,7 @@ docker_compose_install() {
     DC_CURVER=`docker-compose version | awk '{ print $4 }'`
 
     if [ -f "$DC_LOC" ] && [ "$COMPOSE_VERSION" = "$DC_CURVER" ]; then
-        echo -e "`docker-compose version` exists and is the most current version. Exiting."
+        echo -e "$Green `docker-compose version` exists and is the most current version. $Color_Off Exiting."
         exit
     fi
 
