@@ -6,36 +6,55 @@
 # existing version of docker-compose.
 
 # Works Cited [COMPOSE_VERSION]: Thank you Roberto Rodriguez (https://github.com/Cyb3rWard0g)
-function docker_compose_install() {
+INSTALL_DIR=/usr/local/bin
+COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
 
-   INSTALL_DIR=/usr/local/bin
-   DC_LOC=`which docker-compose`
-   DC_CURVER=`docker-compose version | awk '{ print $4 }'`
-   COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+install_dc() {
 
-   Color_Off='\033[0m'
-   Green='\033[0;32m'
+    sudo curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` \
+    -o $INSTALL_DIR/docker-compose
 
-   if [ -f "$DC_LOC" ] && [ "$COMPOSE_VERSION" = "$DC_CURVER" ]; then
-      echo -e "`docker-compose version` exists and is the most current version. Exiting."
-      exit
-   else
-      if [ "$COMPOSE_VERSION" != "$DC_CURVER" ]; then
-          echo -e "$Green Installing a newer version of docker-compose..$Color_Off"
-          sudo rm -rf $(DC_LOC)
-      fi
+    echo "Docker Compose successfully downloaded to: $INSTALL_DIR"
 
-      sudo curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` \
-      -o $INSTALL_DIR/docker-compose
+    sudo chmod 755 $INSTALL_DIR/docker-compose
+    sudo ln -s $INSTALL_DIR/docker-compose /usr/bin/docker-compose
 
-      echo "Docker Compose successfully downloaded to: $INSTALL_DIR"
+    echo "Docker Compose successfully linked to: /usr/bin/docker-compose"
+    echo "`docker-compose version` has been successfully installed on this system."
+}
 
-      sudo chmod 755 $INSTALL_DIR/docker-compose
-      sudo ln -s $INSTALL_DIR/docker-compose /usr/bin/docker-compose
 
-      echo "Docker Compose successfully linked to: /usr/bin/docker-compose"
-      echo "`docker-compose version` has been successfully installed on this system."
-   fi
+docker_compose_install() {
+
+    Color_Off='\033[0m'
+    Green='\033[0;32m'
+
+    if [ ! $"(command -v docker-compose &> /dev/null)" ]
+    then
+
+        echo -e "Docker Compose is NOT installed on: $(hostname)"
+        echo -e "$Green Installing docker-compose -> $COMPOSE_VERSION.. $Color_Off"
+        
+        install_dc
+        exit
+    fi
+
+    DC_LOC=`command -v docker-compose`
+    DC_CURVER=`docker-compose version | awk '{ print $4 }'`
+
+    if [ -f "$DC_LOC" ] && [ "$COMPOSE_VERSION" = "$DC_CURVER" ]; then
+        echo -e "`docker-compose version` exists and is the most current version. Exiting."
+        exit
+    fi
+
+    
+    if [ "$COMPOSE_VERSION" != "$DC_CURVER" ]; then
+        echo -e "$Green Installing a newer version $COMPOSE_VERSION of docker-compose..$Color_Off"
+        sudo rm -rf $DC_LOC
+        
+        install_dc
+        exit
+    fi
 }
 
 docker_compose_install
