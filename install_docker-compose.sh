@@ -29,10 +29,10 @@ docker_compose_install() {
     Color_Off='\033[0m'
     Green='\033[0;32m'
 
-    if [ ! $"(command -v docker-compose &> /dev/null)" ]; then
+    if [ ! $(command -v docker-compose) ]; then
 
         echo -e "Docker Compose is NOT installed on: $(hostname)"
-        echo -e "$Green Installing docker-compose -> $COMPOSE_VERSION.. $Color_Off"
+        echo -e "$Green Installing docker-compose -> $COMPOSE_VERSION. $Color_Off"
         
         install_dc
         exit
